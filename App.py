@@ -177,7 +177,7 @@ def edit_article(id):
 
         return redirect(url_for('dashboard'))
 
-    return render_template('updated.html', form=form)
+    return render_template('update.html', form=form)
 
 if __name__ == '__main__':
     app.secret_key = 'secret123'
