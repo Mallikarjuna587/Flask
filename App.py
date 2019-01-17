@@ -7,9 +7,11 @@ from functools import wraps
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
     return render_template('home1.html')
+
 
 # About
 @app.route('/about')
@@ -28,6 +30,7 @@ class RegisterForm(Form):
     ])
     confirm = PasswordField('Confirm Password')
 
+
 # User Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -43,7 +46,8 @@ def register():
         # Create cursor
 
         # Execute query
-        cursor.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)", (name, email, username, password))
+        cursor.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)",
+                       (name, email, username, password))
 
         # Commit to DB
         db.commit()
@@ -51,10 +55,9 @@ def register():
         # Close connection
         cursor.close()
 
-
-
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -95,6 +98,7 @@ def login():
 
     return render_template('login1.html')
 
+
 # Check if user logged in
 def is_logged_in(f):
     @wraps(f)
@@ -104,7 +108,9 @@ def is_logged_in(f):
         else:
             flash('Unauthorized, Please login', 'danger')
             return redirect(url_for('login'))
+
     return wrap
+
 
 # Logout
 @app.route('/logout')
@@ -114,6 +120,7 @@ def logout():
     flash('You are now logged out', 'success')
     return redirect(url_for('login'))
 
+
 # Dashboard
 @app.route('/dashboard')
 @is_logged_in
@@ -122,7 +129,6 @@ def dashboard():
     db = pymysql.connect("localhost", "malli", "Malli@587", "flask")
     con = db.cursor()
     cursor = db.cursor()
-
 
     result = cursor.execute("SELECT * FROM one WHERE email = %s", [session['email']])
 
@@ -136,19 +142,19 @@ def dashboard():
     # Close connection
     cur.close()
 
+
 class updateForm(Form):
     Addamount = StringField('Addamount', [validators.Length(min=1, max=200)])
 
 
-@app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
+@app.route('/update/<string:id>', methods=['GET', 'POST'])
 @is_logged_in
-def edit_article(id):
+def update(id):
     # Create cursor
     db = pymysql.connect("localhost", "malli", "Malli@587", "flask")
     con = db.cursor()
     cursor = db.cursor()
 
-    
     result = cursor.execute("SELECT * FROM one WHERE id = %s", [id])
 
     article = cursor.fetchone()
@@ -156,9 +162,8 @@ def edit_article(id):
     # Get form
     form = updateForm(request.form)
     form.Addamount.data = article[4]
-    if request.method == 'POST' :
+    if request.method == 'POST':
         Addamount = request.form['Addamount']
-
 
         # Create Cursor
         db = pymysql.connect("localhost", "malli", "Malli@587", "flask")
@@ -166,11 +171,11 @@ def edit_article(id):
         cursor = db.cursor()
         app.logger.info(Addamount)
         # Execute
-        cursor.execute ("UPDATE one SET Addamount=%s WHERE id=%s",(Addamount, id))
+        cursor.execute("UPDATE one SET Addamount=%s WHERE id=%s", (Addamount, id))
         # Commit to DB
         db.commit()
 
-        #Close connection
+        # Close connection
         cursor.close()
 
         flash('Updated', 'success')
@@ -179,6 +184,7 @@ def edit_article(id):
 
     return render_template('update.html', form=form)
 
+
 if __name__ == '__main__':
     app.secret_key = 'secret123'
-    app.run(debug=True,host='192.168.1.101',port=4000)
+    app.run(debug=True, host='192.168.1.101', port=4000)
