@@ -135,11 +135,11 @@ def dashboard():
         return render_template('dashboard.html', msg=msg)
     # Close connection
     cur.close()
-# Article Form Class
-class ArticleForm(Form):
+
+class updateForm(Form):
     Addamount = StringField('Addamount', [validators.Length(min=1, max=200)])
 
-# Edit Article
+
 @app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
 @is_logged_in
 def edit_article(id):
@@ -148,15 +148,13 @@ def edit_article(id):
     con = db.cursor()
     cursor = db.cursor()
 
-    # Get article by id
+    
     result = cursor.execute("SELECT * FROM one WHERE id = %s", [id])
 
     article = cursor.fetchone()
     cursor.close()
     # Get form
-    form = ArticleForm(request.form)
-
-    # Populate article form fields
+    form = updateForm(request.form)
     form.Addamount.data = article[4]
     if request.method == 'POST' :
         Addamount = request.form['Addamount']
@@ -175,11 +173,11 @@ def edit_article(id):
         #Close connection
         cursor.close()
 
-        flash('Article Updated', 'success')
+        flash('Updated', 'success')
 
         return redirect(url_for('dashboard'))
 
-    return render_template('edit_article.html', form=form)
+    return render_template('updated.html', form=form)
 
 if __name__ == '__main__':
     app.secret_key = 'secret123'
