@@ -1,0 +1,12 @@
+{% extends 'layout1.html' %}
+
+{% block body %}
+  <h1>Login</h1>
+  <form action="" method="POST">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" name="email" class="form-control" value={{request.form.email}}>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}
