@@ -1,0 +1,31 @@
+{% extends 'layout1.html' %}
+
+{% block body %}
+  <h1><small> Welcome {{session.email}}</small></h1>
+  <h2><a href="/MyTeamExpense" class="btn btn-primary btn-lg pull-left">MyTeamExpense</a></h2>
+  <h3><a href="/MyExpense" class="btn btn-success btn-lg pull-right">MyExpense</a></h3>
+
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>id</th>
+      <th>Amount</th>
+      <th>Email</th>
+      <th>AddAmount</th>
+      <th>Action</th>
+    </tr>
+    {% for row in rows %}
+      <tr>
+        <td>{{row[0]}}</td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+        <td>{{row[3]}}</td>
+        <td>{{row[4]}}</td>
+        <td><a href="update/{{row[1]}}" class="btn btn-default pull-right">Update</a></td>
+
+      </tr>
+    {% endfor %}
+  </table>
+<a href = "/">Go back to home page</a>
+{% endblock %}
