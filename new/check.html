@@ -1,0 +1,65 @@
+
+{% extends 'layout1.html' %}
+
+{% block body %}
+<h1 xmlns="http://www.w3.org/1999/html"><small> Welcome  {{Name}} {{Name1}}</small></h1>
+  <h2><a href="/MyTeamExpense" class="btn btn-primary btn-lg pull-left">MyTeamExpense</a></h2>
+  <h3><a href="/MyExpense" class="btn btn-success btn-lg pull-right" contenteditable="true">MyExpense</a></h3>
+
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th contenteditable="true">Name</th>
+      <th>id</th>
+      <th>Amount</th>
+      <th>Email</th>
+      <th>AddAmount</th>
+      <th>Action</th>
+    </tr>
+
+    {% for row in rows %}
+      <tr>
+        <form action="update/{{row[1]}}" method="POST">
+          <div class="form-group">
+            <td contenteditable="true" >{{row[0]}}</td>
+            <input type="Submit">
+            <td contenteditable="true">{{row[1]}}</td>
+            <td contenteditable="true">{{row[2]}}</td>
+            <td contenteditable="true">{{row[3]}}</td>
+          </div>
+        </form>
+
+        <form action="update/{{row[1]}}" method="POST">
+          <div class="form-group">
+
+            <td>
+              <select class="something" id="RequestType" name = "RequestType">
+			  <option value={{row[4]}}>{{row[4]}}</option>
+			  <option value=145>145</option>
+			  <option value=167>167</option>
+			  <option value=178>178</option>
+			  <option value={{row[4]}}>678</option>
+			  </select>
+			  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+			  <script type="text/javascript">
+					var seen = {};
+					jQuery('.something').children().each(function() {
+						var txt = jQuery(this).attr('value');
+						if (seen[txt]) {
+							jQuery(this).remove();
+						} else {
+							seen[txt] = true;
+						}
+					});
+				</script>
+            </td>
+            <td><input type="Submit"></td>
+          </div>
+        </form>
+
+      </tr>
+    {% endfor %}
+
+  </table>
+<a href = "/home2">Go back to home page</a>
+{% endblock %}
