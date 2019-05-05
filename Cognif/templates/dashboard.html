@@ -1,0 +1,154 @@
+
+<html>
+<body bgcolor="#FFFFF0">
+  <style>
+       /*
+	Generic Styling, for Desktops/Laptops
+	*/
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+
+	/* Zebra striping */
+	tr:nth-of-type(odd) {
+		background: #eee;
+	}
+	th {
+		background: #333;
+		color: white;
+		font-weight: bold;
+	}
+	td, th {
+		padding: 6px;
+		border: 1px solid #ccc;
+		text-align: left;
+	}
+
+
+   /*
+	Max width before this PARTICULAR table gets nasty
+	This query will take effect for any screen smaller than 760px
+	and also iPads specifically.
+	*/
+	@media
+	only screen and (max-width: 760px),
+	(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* add counter reset */
+		tr { border: 1px solid #ccc; counter-reset: tdcount; }
+
+    /* add counter increment */
+		td, th {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 10%;
+        counter-increment: tdcount;
+		}
+
+     /* add counter content */
+
+		 td:before,
+       th:before{
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 5%;
+			padding-right: 10px;
+			white-space: nowrap;
+        content: counter(tdcount) ". ";
+		}
+
+     thead tr th:before {
+
+       content: counter(tdcount) ": ";
+
+     }
+
+
+
+	/* Smartphones (portrait and landscape) ----------- */
+	@media only screen
+	and (min-device-width : 320px)
+	and (max-device-width : 480px) {
+		body {
+			padding: 0;
+			margin: 0;
+			width: 320px; }
+		}
+
+	/* iPads (portrait and landscape) ----------- */
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+		body {
+			width: 495px;
+		}
+	}
+
+  </style>
+  <h1><small> Welcome {{name}}</small></h1>
+
+  <p><img src="{{ user_image }}" alt="User Image" height="200" width="300" align="left">
+    <img src="{{ piechart }}" alt="User Image" height="200" width="300" align="right"><p  style="font-size:140%;">Banking business process outsourcing or banking BPO is a highly specialized sourcing strategy used by banks and lending institutions to support the business acquisition and account servicing activities associated with the customer lending lifecycle.</p> </p>
+
+  <div style="clear: both">
+    <h2 style="float: left"><a href="/dashboard" class="btn btn-primary btn-lg pull-left">MyExpense</a></h2>
+    <h3 style="float: right"><a href="/MyTeamExpense" class="btn btn-success btn-lg pull-right">MyTeamExpense</a></h3>
+</div>
+
+
+
+  <table class="table table-striped">
+    <tr>
+      <th>id</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Supervisor_Email</th>
+      <th>Total Amount Spent</th>
+      <th>Pending Amount</th>
+      <th>Pay Amount</th>
+      <th>Comment</th>
+      <th>Action</th>
+    </tr>
+    {% for row in rows %}
+      <tr>
+        <td>{{row[0]}}</td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+        <td>{{row[3]}}</td>
+        <td>${{row[4]}}</td>
+        <td>${{row[6]}}</td>
+          <div class="main-agileinfo">
+			<div class="agileits-top">
+				<form action="/update/{{row[0]}}" method="post">
+                  <td>
+					<input class = 'text' style="border:1px solid #FFFFFF" name = 'AddAmount' value="{{row[7]}}">
+                  </td>
+                  <td>
+                    <input class = 'text' style="border:1px solid #FFFFFF" name = 'comment' value="{{row[8]}}">
+                  </td>
+                  <td>
+                  <input type="submit" value="Submit">
+                  </td>
+
+				</form>
+			</div>
+          </div>
+
+
+
+      </tr>
+    {% endfor %}
+  </table>
+<a href = "/">Go back to home page</a>
+</body>
+</html>
